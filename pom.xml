@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.88</version>
+    <version>5.9</version>
     <relativePath />
   </parent>
   <groupId>io.jenkins.plugins</groupId>
@@ -33,7 +33,7 @@
     <!-- <jenkins.version>2.426.2</jenkins.version> -->
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <spotless.check.skip>false</spotless.check.skip>
-    <jenkins.version>2.426.3</jenkins.version>
+    <jenkins.version>2.479.3</jenkins.version>
     <useBeta>true</useBeta>
     <spotbugs.effort>Max</spotbugs.effort>
     <spotbugs.threshold>Low</spotbugs.threshold>
