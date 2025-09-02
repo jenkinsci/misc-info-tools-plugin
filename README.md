@@ -199,19 +199,11 @@ To work around various transpartent proxies the following maven.config.
 
 ## TO RUN THIS PROJECT LOCALLY
 
-Notes: the -Djetty.port=5000 sets the local listener port!
+If you want to run/test a local jenkins with this plugin, here are the steps.  Notes: the -Djetty.port=5000 sets the local listener port!
 
 ```
   mvn clean test hpi:hpi
   mvn hpi:run -Dport=5000
-```
-
-## To force a new version
-
-In this example 1.0.1 is the new version!
-
-```
-  mvn versions:set -DnewVersion=1.0.1
 ```
 
 ## Cleaning the project
