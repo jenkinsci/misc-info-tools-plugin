@@ -16,7 +16,6 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
-
 import org.springframework.security.access.AccessDeniedException;
 
 public class UpstreamJobFinder extends Step implements Serializable {
@@ -27,8 +26,8 @@ public class UpstreamJobFinder extends Step implements Serializable {
 
     @DataBoundSetter
     public void setIncludes(ArrayList<String> includes) {
-        this.includes=new ArrayList<Pattern>();
-        if(includes==null) throw new NullPointerException();
+        this.includes = new ArrayList<Pattern>();
+        if (includes == null) throw new NullPointerException();
         for (String str : includes) {
             this.includes.add(Pattern.compile(str));
         }
@@ -52,18 +51,18 @@ public class UpstreamJobFinder extends Step implements Serializable {
 
     @DataBoundSetter
     public void setExcludes(ArrayList<String> excludes) {
-      
-        this.excludes=new ArrayList<Pattern>();
-        if(excludes==null) return;
+
+        this.excludes = new ArrayList<Pattern>();
+        if (excludes == null) return;
         for (String str : excludes) {
             this.excludes.add(Pattern.compile(str));
         }
     }
 
     @DataBoundConstructor
-    public UpstreamJobFinder(ArrayList<String> includes,ArrayList<String> excludes) {
-      this.setIncludes(includes);
-      this.setExcludes(excludes);
+    public UpstreamJobFinder(ArrayList<String> includes, ArrayList<String> excludes) {
+        this.setIncludes(includes);
+        this.setExcludes(excludes);
     }
 
     private ArrayList<String> getList() {
