@@ -21,7 +21,7 @@ public class GenerateUpstreamValuesTest {
     @Order(1)
     public void testBadArgs() throws Exception {
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
-        String pipelineScript = "UpstreamJobFinder(whitelist: null)";
+        String pipelineScript = "upstreamJobFinder(includes: null)";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         jenkins.buildAndAssertStatus(Result.FAILURE, job);
     }
@@ -35,7 +35,7 @@ public class GenerateUpstreamValuesTest {
             job.save();
         }
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
-        String pipelineScript = "def noise=UpstreamJobFinder(whitelist: [/^.*test-x-.*$/]).join(',');echo noise";
+        String pipelineScript = "def noise=upstreamJobFinder(includes: [/^.*test-x-.*$/]).join(',');echo noise";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.buildAndAssertStatus(Result.SUCCESS, job);
         for (String expectedString : list) {
@@ -48,7 +48,7 @@ public class GenerateUpstreamValuesTest {
     public void excludeTest() throws Exception {
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
         String pipelineScript =
-                "def noise=UpstreamJobFinder(whitelist: [/^.*test-x-.*$/],blacklist:[ /^.*x-0$/] ).join(',');echo noise";
+                "def noise=upstreamJobFinder(includes: [/^.*test-x-.*$/],excludes:[ /^.*x-0$/] ).join(',');echo noise";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.buildAndAssertStatus(Result.SUCCESS, job);
         String bad = "test-x-0";

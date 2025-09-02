@@ -33,7 +33,7 @@ public class NodeLabelAudit extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "NodeLabelAudit";
+            return "nodeLabelAudit";
         }
 
         @Override

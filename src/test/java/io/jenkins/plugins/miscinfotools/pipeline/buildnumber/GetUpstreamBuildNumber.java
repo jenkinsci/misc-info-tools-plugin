@@ -21,7 +21,7 @@ public class GetUpstreamBuildNumber {
 
         jenkins.createOnlineSlave(Label.get(agentLabel));
 
-        String pipelineScript = "echo \"${GetUpsteamBuildNumber('test-1')}\"";
+        String pipelineScript = "echo \"${getJobBuildNumber('test-1')}\"";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.assertBuildStatusSuccess(job.scheduleBuild2(0));
         String expectedString = "TelDevBuildTools";

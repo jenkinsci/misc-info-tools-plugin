@@ -47,12 +47,12 @@ public class GetUpstreamBuildNumber extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "GetUpsteamBuildNumber";
+            return "getJobBuildNumber";
         }
 
         @Override
         public String getDisplayName() {
-            return "Upstream build number getter";
+            return "Job build number getter";
         }
 
         @Override

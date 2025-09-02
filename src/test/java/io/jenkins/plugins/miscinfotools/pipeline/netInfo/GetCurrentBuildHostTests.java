@@ -21,7 +21,7 @@ public class GetCurrentBuildHostTests {
 
         jenkins.createOnlineSlave(Label.get(agentLabel));
 
-        String pipelineScript = "echo \"${GetCurrentBuildHost()}\"";
+        String pipelineScript = "echo \"${getCurrentBuildHost()}\"";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.assertBuildStatusSuccess(job.scheduleBuild2(0));
         String expectedString = java.net.InetAddress.getLocalHost().getHostName();

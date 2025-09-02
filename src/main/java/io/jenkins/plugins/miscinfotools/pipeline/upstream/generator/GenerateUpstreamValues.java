@@ -23,15 +23,15 @@ public class GenerateUpstreamValues extends Step implements Serializable {
     private ArrayList<Pattern> exclude;
 
     @DataBoundSetter
-    public void setWhitelist(ArrayList<String> whitelist) {
-        for (String str : whitelist) {
+    public void setIncludes(ArrayList<String> includes) {
+        for (String str : includes) {
             this.match.add(Pattern.compile(str));
         }
     }
 
     @DataBoundSetter
-    public void setBlacklist(ArrayList<String> blacklist) {
-        for (String str : blacklist) {
+    public void setExcludes(ArrayList<String> excludes) {
+        for (String str : excludes) {
             this.exclude.add(Pattern.compile(str));
         }
     }
@@ -84,7 +84,7 @@ public class GenerateUpstreamValues extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "UpstreamJobFinder";
+            return "upstreamJobFinder";
         }
 
         @Override

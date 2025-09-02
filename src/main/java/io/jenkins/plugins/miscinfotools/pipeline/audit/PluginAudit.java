@@ -45,7 +45,7 @@ public class PluginAudit extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "PluginAudit";
+            return "pluginAudit";
         }
 
         @Override

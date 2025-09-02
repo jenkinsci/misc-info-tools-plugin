@@ -33,7 +33,7 @@ public class GetCurrentBuildHost extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "GetCurrentBuildHost";
+            return "getCurrentBuildHost";
         }
 
         @Override

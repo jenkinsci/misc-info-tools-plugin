@@ -22,7 +22,7 @@ public class PluginAuditTest {
         jenkins.createOnlineSlave(Label.get(agentLabel));
 
         String pipelineScript =
-                "for(row in PluginAudit()) {echo 'Plugin:  '+row['Plugin']; echo 'Version: '+row['Version']}";
+                "for(row in pluginAudit()) {echo 'Plugin:  '+row['Plugin']; echo 'Version: '+row['Version']}";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.assertBuildStatusSuccess(job.scheduleBuild2(0));
         String expectedString = "misc-info-tools";
