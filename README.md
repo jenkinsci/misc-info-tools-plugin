@@ -30,7 +30,7 @@ This method returns the last BUILD_ID of the given job.
 
 ### GetCurrentBuildHost()
 
-This method returns the name of the current build host from jenkins.  This method exists because java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  This will return the same value.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.
+This method returns the name of the current build host from jenkins.  This method exists because java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.  
 
 ```
  String GetCurrentBuildHost()
@@ -38,7 +38,9 @@ This method returns the name of the current build host from jenkins.  This metho
 
 ### checkUpStreamJobs(deps)
 
-This method takes a list of job paths and checks for the following.
+This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing jenkins cluster load.  This functionality grows in value when a job can add new upstream triggers on the fly.
+
+Arguments: Takes a list of job paths and checks for the following.
 
   1. If any of the jobs are null: throws exception halts the job as FAILED
   2. If any of the jobs are building: thows exception and halts the job as ABORTED
@@ -50,6 +52,8 @@ This method takes a list of job paths and checks for the following.
 ```
 
 ### PluginAudit()
+
+This method provides an array of hashes listing out the Plugin an Version currently installed in jenkins.  This can be handy when moving from one Jenkins platform to another and trying to figure out why a plugin/build is not working.  The method exists because of the author's experiince with multiple jenkins migrations and having to track down what versions were required for builds to work.  See the demo showing how to generate a .csv artifact from this method ( could save you a lot of time! )  Ah.. Migrations.. always migrations.... tis the way of things!!
 
 ```
   ArrayList<HashMap<String, String>> PluginAudit()
