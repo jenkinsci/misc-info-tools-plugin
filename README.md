@@ -53,7 +53,7 @@ Arguments: Takes a list of job paths and checks for the following.
 
 ### PluginAudit()
 
-This method provides an array of hashes listing out the Plugin an Version currently installed in jenkins.  This can be handy when moving from one Jenkins platform to another and trying to figure out why a plugin/build is not working.  The method exists because of the author's experiince with multiple jenkins migrations and having to track down what versions were required for builds to work.  See the demo showing how to generate a .csv artifact from this method ( could save you a lot of time! )  Ah.. Migrations.. always migrations.... tis the way of things!!
+This method provides an array of hashes listing out the Plugin an Version currently installed in jenkins.  This can be handy when moving from one Jenkins platform to another and trying to figure out why a plugin/build is not working.  The method exists because of the author's experince with multiple jenkins migrations and having to track down what versions were required for builds to work.  See the demo showing how to generate a .csv artifact from this method ( could save you a lot of time! )  Ah.. Migrations.. always migrations.... tis the way of things!!
 
 ```
   ArrayList<HashMap<String, String>> PluginAudit()
