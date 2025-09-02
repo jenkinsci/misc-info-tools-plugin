@@ -12,7 +12,7 @@ This project provides useful information expressed through functions in a Jenkin
 
 ### UpstreamJobFinder(whitelist,blacklist)
 
-This method provides a why to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The white/black list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
+This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The white/black list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
 
 ```
   ArrayList<String>  UpstreamJobFinder(ArrayList<String> whitelist, ArrayList<String> blacklist)
