@@ -5,10 +5,9 @@ package io.jenkins.plugins.miscinfotools.pipeline.upstream.checker;
  *
  */
 
+import hudson.AbortException;
 import hudson.EnvVars;
 import hudson.Extension;
-import hudson.FilePath;
-import hudson.Launcher;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
 import hudson.model.Result;
@@ -57,7 +56,8 @@ public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
     }
 
     @Override
-    public void perform(Run<?, ?> build, EnvVars env, TaskListener listener) throws InterruptedException {
+    public void perform(Run<?, ?> build, EnvVars env, TaskListener listener)
+            throws InterruptedException, AbortException {
         listener.getLogger()
                 .println("Job class is an instance of: " + build.getClass().getName());
         String msg = this.toggleState(build, listener);
@@ -70,43 +70,32 @@ public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
         }
     }
 
-    @Override
-    public void perform(Run<?, ?> build, FilePath workspace, EnvVars env, Launcher launcher, TaskListener listener)
-            throws InterruptedException {
-        this.perform(build, env, listener);
-    }
-
-    private String toggleState(Run<?, ?> build, TaskListener listener) throws InterruptedException {
+    private String toggleState(Run<?, ?> build, TaskListener listener) throws InterruptedException, AbortException {
 
         Jenkins server = Jenkins.getInstanceOrNull();
         if (server == null) return "Jenkins server offline";
         for (String jobName : list) {
             listener.getLogger().println("Testing Job: " + jobName);
-            try {
-                Job<?, ?> job = (Job<?, ?>) server.getItemByFullName(jobName);
-                if (job == null) {
-                    build.setResult(Result.FAILURE);
-                    throw new InterruptedException("Job: " + jobName + ", does not exist!");
-                } else if (job.isBuilding()) {
-                    build.setResult(Result.ABORTED);
-                    throw new InterruptedException("Job: " + jobName + ". is currently building!");
-                } else if (job.isInQueue()) {
-                    build.setResult(Result.ABORTED);
-                    throw new InterruptedException("Job: " + jobName + ", is currently in queue!");
-                }
-                Run<?, ?> last = job.getLastCompletedBuild();
-                if (null == last) {
-                    build.setResult(Result.ABORTED);
-                    throw new InterruptedException("Job: " + jobName + ", has never run!");
-                } else if (Result.SUCCESS != last.getResult()) {
-                    build.setResult(Result.ABORTED);
-                    throw new InterruptedException("Job: " + jobName + ", is not in state SUCCESS!");
-                }
-                listener.getLogger().println("Done testing Job: " + jobName);
-            } catch (ClassCastException e) {
+            Job<?, ?> job = (Job<?, ?>) server.getItemByFullName(jobName, Job.class);
+            if (job == null) {
                 build.setResult(Result.FAILURE);
-                throw new InterruptedException("Object: " + jobName + ", is not a job!");
+                throw new AbortException("Job: " + jobName + ", does not exist!");
+            } else if (job.isBuilding()) {
+                build.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ". is currently building!");
+            } else if (job.isInQueue()) {
+                build.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ", is currently in queue!");
             }
+            Run<?, ?> last = job.getLastCompletedBuild();
+            if (null == last) {
+                build.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ", has never run!");
+            } else if (Result.SUCCESS != last.getResult()) {
+                build.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ", is not in state SUCCESS!");
+            }
+            listener.getLogger().println("Done testing Job: " + jobName);
         }
         return "All requested jobs look good!";
     }
