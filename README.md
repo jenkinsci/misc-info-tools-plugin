@@ -30,7 +30,7 @@ This method returns the last BUILD_ID of the given job.
 
 ### GetCurrentBuildHost()
 
-This method returns the name of the current build host from jenkins.  This method exists because java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  This will returns the same value.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.
+This method returns the name of the current build host from jenkins.  This method exists because java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  This will return the same value.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.
 
 ```
  String GetCurrentBuildHost()
@@ -172,7 +172,9 @@ pipeline {
 ## Contributing
 
 This project is maintained in the following [Github Project](https://github.com/akalinux/misc-jenkins-info-tools).
-Please create a pull request to submit changes!
+Please create a pull request to submit changes! 
+
+Note, this will need to be changed if/when this is hosted by jenkins.
 
 ## LICENSE
 
