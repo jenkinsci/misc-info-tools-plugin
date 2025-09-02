@@ -11,12 +11,12 @@ This project provides useful information expressed through functions in a Jenkin
 
 ## Functions
 
-### UpstreamJobFinder(whitelist,blacklist)
+### upstreamJobFinder(includes,excludes)
 
 This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The white/black list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
 
 ```
-  ArrayList<String>  UpstreamJobFinder(ArrayList<String> whitelist, ArrayList<String> blacklist)
+  ArrayList<String>  upstreamJobFinder(ArrayList<String> includes, ArrayList<String> excludes)
 ```
 
 ### GetUpsteamBuildNumber(jobName)
@@ -74,18 +74,18 @@ Jenkinsfile Example
 
 ```
 // white list upstream job pattern matches
-def whitelist=[/^.*evaluation\/.*_.*$/];
+def includes=[/^.*evaluation\/.*_.*$/];
 
 // black list upstream job pattern matches
-def blacklist=[/^.*custom_plugin_tests.*$/];
+def excludes=[/^.*custom_plugin_tests.*$/];
 
 // dynamically find our upstream jobs
-def fulldeps=UpstreamJobFinder(
+def fulldeps=upstreamJobFinder(
   // array list of patterns to match upstream projects
-  whitelist: whitelist, 
+  includes: includes, 
 
   // array list of patterns to exclude upstream projects
-  blacklist: blacklist
+  excludes: excludes
 );
 
 // Dynamically rebuild our upstreamProjects
@@ -129,11 +129,11 @@ pipeline {
             echo "  ${str}"
           }
           echo "Whitelist regular expressions:"
-          for( String str : whitelist ) {
+          for( String str : includes ) {
             echo "  ${str}"
           }
           echo "Blacklist regular expressions:"
-          for( String str : blacklist ) {
+          for( String str : excludes ) {
             echo "  ${str}"
           }
         } 
@@ -192,19 +192,6 @@ Note, this will need to be changed if/when this is hosted by jenkins.
 ## LICENSE
 
 Licensed under MIT, see [LICENSE](LICENSE.md)
-
-## Notes
-
-To work around various transpartent proxies the following maven.config.
-
-```
-  -Dmaven.resolver.transport=wagon
-  -Dmaven.wagon.http.ssl.insecure=true
-  -Dmaven.wagon.http.ssl.allowall=true
-  -Dmaven.wagon.http.ssl.ignore.validity.dates=true
-  -Pconsume-incrementals
-  -Pmight-produce-incrementals
-```
 
 ## TO RUN THIS PROJECT LOCALLY
 
