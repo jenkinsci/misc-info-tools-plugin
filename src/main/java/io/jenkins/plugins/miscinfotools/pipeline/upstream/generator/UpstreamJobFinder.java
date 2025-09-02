@@ -16,52 +16,83 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
+
 import org.springframework.security.access.AccessDeniedException;
 
-public class GenerateUpstreamValues extends Step implements Serializable {
+public class UpstreamJobFinder extends Step implements Serializable {
 
     private static final long serialVersionUID = 1505586566993544821L;
-    private ArrayList<Pattern> match;
-    private ArrayList<Pattern> exclude;
+    private ArrayList<Pattern> includes;
+    private ArrayList<Pattern> excludes;
 
     @DataBoundSetter
     public void setIncludes(ArrayList<String> includes) {
+        this.includes=new ArrayList<Pattern>();
+        if(includes==null) throw new NullPointerException();
         for (String str : includes) {
-            this.match.add(Pattern.compile(str));
+            this.includes.add(Pattern.compile(str));
         }
+    }
+
+    public ArrayList<String> getIncludes() {
+        final ArrayList<String> list = new ArrayList<String>();
+        for (Pattern regex : includes) {
+            list.add(regex.pattern());
+        }
+        return list;
+    }
+
+    public ArrayList<String> getExcludes() {
+        final ArrayList<String> list = new ArrayList<String>();
+        for (Pattern regex : excludes) {
+            list.add(regex.pattern());
+        }
+        return list;
     }
 
     @DataBoundSetter
     public void setExcludes(ArrayList<String> excludes) {
+      
+        this.excludes=new ArrayList<Pattern>();
+        if(excludes==null) return;
         for (String str : excludes) {
-            this.exclude.add(Pattern.compile(str));
+            this.excludes.add(Pattern.compile(str));
         }
     }
 
     @DataBoundConstructor
-    public GenerateUpstreamValues() {
-        this.match = new ArrayList<Pattern>();
-        this.exclude = new ArrayList<Pattern>();
+    public UpstreamJobFinder(ArrayList<String> includes,ArrayList<String> excludes) {
+      this.setIncludes(includes);
+      this.setExcludes(excludes);
     }
 
     private ArrayList<String> getList() {
         ArrayList<String> list = new ArrayList<String>();
-        if (match.isEmpty()) return list;
+        if (includes.isEmpty()) return list;
         Jenkins server = Jenkins.getInstanceOrNull();
         // stop here if we have no instance of jenkins
         if (server == null) return list;
 
         for (Job<?, ?> job : server.getAllItems(Job.class)) {
+            boolean isAdmin = false;
             try {
-                job.checkPermission(Item.READ);
-                job.checkPermission(Item.DISCOVER);
+                server.checkPermission(Jenkins.ADMINISTER);
+                isAdmin = true;
             } catch (AccessDeniedException e) {
-                // skip this job if the user cannot read it
-                continue;
+                // nothing to do here
+            }
+            if (!isAdmin) {
+                try {
+                    job.checkPermission(Item.READ);
+                    job.checkPermission(Item.DISCOVER);
+                } catch (AccessDeniedException e) {
+                    // skip this job if the user cannot read it and is not allowed to discover it
+                    continue;
+                }
             }
             String name = job.getFullName();
             boolean matchOk = false;
-            for (Pattern ok : match) {
+            for (Pattern ok : includes) {
                 if (ok.matcher(name).matches()) {
                     matchOk = true;
                     break;
@@ -70,7 +101,7 @@ public class GenerateUpstreamValues extends Step implements Serializable {
 
             if (!matchOk) continue;
 
-            for (Pattern notOk : exclude) {
+            for (Pattern notOk : excludes) {
                 if (notOk.matcher(name).matches()) {
                     matchOk = false;
                     break;
@@ -109,10 +140,10 @@ public class GenerateUpstreamValues extends Step implements Serializable {
 
     private static class StepExecutionImpl extends SynchronousStepExecution<ArrayList<String>> {
 
-        private static final long serialVersionUID = GenerateUpstreamValues.serialVersionUID;
-        private final GenerateUpstreamValues step;
+        private static final long serialVersionUID = UpstreamJobFinder.serialVersionUID;
+        private final UpstreamJobFinder step;
 
-        StepExecutionImpl(GenerateUpstreamValues step, StepContext context) {
+        StepExecutionImpl(UpstreamJobFinder step, StepContext context) {
             super(context);
             this.step = step;
         }

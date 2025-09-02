@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Order;
 import org.jvnet.hudson.test.JenkinsRule;
 
-public class GenerateUpstreamValuesTest {
+public class UpstreamJobFinder {
 
     private final String[] list = {"test-x-0", "test-x-1", "test-x-2"};
 

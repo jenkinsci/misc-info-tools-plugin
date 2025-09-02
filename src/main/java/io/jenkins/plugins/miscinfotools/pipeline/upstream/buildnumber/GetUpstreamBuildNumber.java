@@ -19,11 +19,10 @@ public class GetUpstreamBuildNumber extends Step implements Serializable {
     private static final long serialVersionUID = 1505586566993544821L;
 
     private String job = null;
-    ;
 
     @DataBoundConstructor
-    public GetUpstreamBuildNumber(String jobName) {
-        this.job = jobName;
+    public GetUpstreamBuildNumber(String job) {
+        this.job = job;
     }
 
     private Integer getBuildNumber() {
