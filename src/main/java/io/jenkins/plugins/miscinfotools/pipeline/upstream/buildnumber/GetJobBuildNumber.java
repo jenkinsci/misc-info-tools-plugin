@@ -25,15 +25,15 @@ public class GetJobBuildNumber extends Step implements Serializable {
     public GetJobBuildNumber(String job) {
         this.job = job;
     }
+
     @DataBoundSetter
     public void setJob(String job) {
-      this.job=job;
+        this.job = job;
     }
-    
+
     public String getJob() {
-      return this.job;
+        return this.job;
     }
-    
 
     private Integer getBuildNumber() {
         Jenkins server = Jenkins.getInstanceOrNull();
