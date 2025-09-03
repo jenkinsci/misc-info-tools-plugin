@@ -20,7 +20,7 @@ public class NodeLabelAudit {
 
         jenkins.createOnlineSlave(Label.get(agentLabel));
 
-        String pipelineScript = "echo \"${NodeLabelAudit()}\"";
+        String pipelineScript = "echo \"${getAllLabelsForAllNodes()}\"";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         // WorkflowRun completedBuild =
         jenkins.assertBuildStatusSuccess(job.scheduleBuild2(0));

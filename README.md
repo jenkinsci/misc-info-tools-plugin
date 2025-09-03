@@ -75,12 +75,12 @@ Arguments: Takes a list of job paths and checks for the following.
   void checkUpStreamJobs(ArrayList<String> deps)
 ```
 
-### getNodeLabel() 
+### getAllLabelsForAllNodes() 
 
 This method provides the node to list of node labels.
 
 ```
-  HashMap<String,ArrayList<String>> getNodeLabel()
+  HashMap<String,ArrayList<String>> getAllLabelsForAllNodes()
 ```
 
 ## Getting started

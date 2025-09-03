@@ -33,7 +33,7 @@ public class GetNodeLabel extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "getNodeLabel";
+            return "getAllLabelsForAllNodes";
         }
 
         @Override

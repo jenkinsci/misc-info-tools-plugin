@@ -17,15 +17,22 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
+
 import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 import org.jenkinsci.Symbol;
+import org.jenkinsci.plugins.workflow.steps.Step;
+import org.jenkinsci.plugins.workflow.steps.StepContext;
+import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
+import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * This class solves the orthogonal problem of checking the status of multiple upstream jobs for successful build status.
  */
-public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
+public class SaneUpstreamChecker extends Step {
 
     private ArrayList<String> deps;
 
@@ -50,68 +57,61 @@ public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
         this.deps = deps;
     }
 
-    @Override
-    public boolean requiresWorkspace() {
-        return false;
-    }
+ 
+
 
     @Override
-    public void perform(Run<?, ?> build, EnvVars env, TaskListener listener)
-            throws InterruptedException, AbortException {
-        listener.getLogger()
-                .println("Job class is an instance of: " + build.getClass().getName());
-        String msg = this.toggleState(build, listener);
-
-        listener.getLogger().println(msg);
-        try {
-            build.save();
-        } catch (IOException e) {
-            listener.getLogger().println("Failed to save next build state" + e);
-        }
-    }
-
-    private String toggleState(Run<?, ?> build, TaskListener listener) throws InterruptedException, AbortException {
-
+    public StepExecution start(StepContext context) throws Exception {
         Jenkins server = Jenkins.getInstanceOrNull();
-        if (server == null) return "Jenkins server offline";
+        if (server == null) ;
         for (String jobName : deps) {
-            listener.getLogger().println("Testing Job: " + jobName);
+            //listener.getLogger().println("Testing Job: " + jobName);
             Job<?, ?> job = (Job<?, ?>) server.getItemByFullName(jobName, Job.class);
             if (job == null) {
-                build.setResult(Result.FAILURE);
+              context.setResult(Result.FAILURE);
                 throw new AbortException("Job: " + jobName + ", does not exist!");
             } else if (job.isBuilding()) {
-                build.setResult(Result.ABORTED);
+              context.setResult(Result.ABORTED);
                 throw new InterruptedException("Job: " + jobName + ". is currently building!");
             } else if (job.isInQueue()) {
-                build.setResult(Result.ABORTED);
+              context.setResult(Result.ABORTED);
                 throw new InterruptedException("Job: " + jobName + ", is currently in queue!");
             }
             Run<?, ?> last = job.getLastCompletedBuild();
             if (null == last) {
-                build.setResult(Result.ABORTED);
+              context.setResult(Result.ABORTED);
                 throw new InterruptedException("Job: " + jobName + ", has never run!");
             } else if (Result.SUCCESS != last.getResult()) {
-                build.setResult(Result.ABORTED);
+              context.setResult(Result.ABORTED);
                 throw new InterruptedException("Job: " + jobName + ", is not in state SUCCESS!");
             }
-            listener.getLogger().println("Done testing Job: " + jobName);
+            //listener.getLogger().println("Done testing Job: " + jobName);
         }
-        return "All requested jobs look good!";
+        //return "All requested jobs look good!";
+        return null;
     }
 
     @Symbol("checkUpStreamJobs")
     @Extension
-    public static class DescriptorImpl extends BuildStepDescriptor<Builder> {
+    public static class DescriptorImpl extends StepDescriptor  {
 
         @Override
         public String getDisplayName() {
             return "Sane Upstream Job Chekcer";
         }
 
+
         @Override
-        public boolean isApplicable(@SuppressWarnings("rawtypes") Class<? extends AbstractProject> jobType) {
-            return true;
+        public String getFunctionName() {
+          
+          return "checkUpStreamJobs";
+        }
+
+        @Override
+        public Set<? extends Class<?>> getRequiredContext() {
+          return Collections.singleton(TaskListener.class);
         }
     }
+
+   
 }
