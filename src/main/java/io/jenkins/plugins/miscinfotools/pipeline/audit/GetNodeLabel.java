@@ -16,12 +16,12 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class NodeLabelAudit extends Step implements Serializable {
+public class GetNodeLabel extends Step implements Serializable {
 
     private static final long serialVersionUID = -4036292666957971360L;
 
     @DataBoundConstructor
-    public NodeLabelAudit() {}
+    public GetNodeLabel() {}
 
     @Override
     public StepExecution start(StepContext context) throws Exception {
@@ -33,12 +33,12 @@ public class NodeLabelAudit extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "nodeLabelAudit";
+            return "getNodeLabel";
         }
 
         @Override
         public String getDisplayName() {
-            return "Node HasMap Listig tool!";
+            return "Get the Jenkins Node node label";
         }
 
         @Override
@@ -49,7 +49,7 @@ public class NodeLabelAudit extends Step implements Serializable {
 
     private static class StepExecutionImpl extends SynchronousStepExecution<HashMap<String, ArrayList<String>>> {
 
-        private static final long serialVersionUID = NodeLabelAudit.serialVersionUID;
+        private static final long serialVersionUID = GetNodeLabel.serialVersionUID;
 
         StepExecutionImpl(StepContext context) {
             super(context);
