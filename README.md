@@ -6,8 +6,7 @@ This project provides useful information expressed through functions in a Jenkin
   2. Getting an upstream job build number
   3. Getting the hostname of the build node your job is running on
   4. Shutting down a build if based on the health/build status of mutiple builds
-  5. Providing a way to the list of installed plugins and thier versions in Jenkins
-  6. Providing a way to get the label of the node this job ran on
+  5. Providing a way to get the label of the node this job ran on
 
 ## Functions
 
@@ -19,17 +18,17 @@ This method provides a way to dynamically list projects using regular expression
   ArrayList<String>  upstreamJobFinder(ArrayList<String> includes, ArrayList<String> excludes)
 ```
 
-### GetUpsteamBuildNumber(jobName)
+### getJobBuildNumber(job)
 
 This method provides the build numbner of the given job by job path.
 
 ```
-  int getJobBuildNumber(String jobName)
+  int getJobBuildNumber(String job)
 ```
 
 This method returns the last BUILD_ID of the given job.
 
-### GetCurrentBuildHost()
+### getCurrentBuildHost()
 
 This method returns the name of the current build host from jenkins.  This method exists because java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.  
 
@@ -52,20 +51,12 @@ Arguments: Takes a list of job paths and checks for the following.
   void checkUpStreamJobs(ArrayList<String> deps)
 ```
 
-### nodeLabelAudit() 
+### getNodeLabel() 
 
-This method provides the label the node was built on.  This can be handy informationally when trying to verify which targeted label your build ran on.
-
-```
-  String nodeLabelAudit()
-```
-
-### pluginAudit()
-
-This method provides an array of hashes listing out the Plugin an Version currently installed in jenkins.  This can be handy when moving from one Jenkins platform to another and trying to figure out why a plugin/build is not working.  The method exists because of the author's experince with multiple jenkins migrations and having to track down what versions were required for builds to work.  See the demo showing how to generate a .csv artifact from this method ( could save you a lot of time! )  Ah.. Migrations.. always migrations.... tis the way of things!!
+This method provides the node to list of node labels.
 
 ```
-  ArrayList<HashMap<String, String>> PluginAudit()
+  HashMap<String,ArrayList<String>> getNodeLabel()
 ```
 
 ## Getting started
@@ -128,36 +119,15 @@ pipeline {
           for( String str : fulldeps ) {
             echo "  ${str}"
           }
-          echo "Whitelist regular expressions:"
+          echo "Include regular expressions:"
           for( String str : includes ) {
             echo "  ${str}"
           }
-          echo "Blacklist regular expressions:"
+          echo "Exclude regular expressions:"
           for( String str : excludes ) {
             echo "  ${str}"
           }
         } 
-      }
-    }
-
-    stage("Plugin Audit") {
-      steps {
-        // ensure the csv is cleaned up before we start
-        sh 'rm -f plugins.csv';
-        script {
-          def data='"Plugin","Version"\n';
-          for(row in pluginAudit()) {
-            // for each plugin, write out its name and version
-            data +='"'+row['Plugin'] +'","'+row['Version'] +'"\n';
-          }
-          writeFile(file: 'PluginAudit.csv', text: data);
-        }
-      }
-    }
-
-    stage("Archive the Plugin Audit") {
-      steps {
-        archiveArtifacts artifacts: '*.csv', followSymlinks: false
       }
     }
 
