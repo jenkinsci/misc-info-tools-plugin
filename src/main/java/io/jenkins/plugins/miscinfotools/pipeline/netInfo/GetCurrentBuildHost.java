@@ -38,7 +38,7 @@ public class GetCurrentBuildHost extends Step implements Serializable {
 
         @Override
         public String getDisplayName() {
-            return "Build Host by Name";
+            return "Get the Build Hostname";
         }
 
         @Override

@@ -27,14 +27,14 @@ import org.kohsuke.stapler.DataBoundConstructor;
  */
 public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
 
-    private ArrayList<String> list;
+    private ArrayList<String> deps;
 
     /**
      * This option sets the list of upstream projects that need to be validated for successful builds before this job executes.
      * @param
      */
     public void setDeps(ArrayList<String> deps) {
-        this.list = deps;
+        this.deps = deps;
     }
 
     /**
@@ -42,12 +42,12 @@ public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
      * @return
      */
     public ArrayList<String> getDeps() {
-        return this.list;
+        return this.deps;
     }
 
     @DataBoundConstructor
     public SaneUpstreamChecker(ArrayList<String> deps) {
-        this.list = deps;
+        this.deps = deps;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class SaneUpstreamChecker extends Builder implements SimpleBuildStep {
 
         Jenkins server = Jenkins.getInstanceOrNull();
         if (server == null) return "Jenkins server offline";
-        for (String jobName : list) {
+        for (String jobName : deps) {
             listener.getLogger().println("Testing Job: " + jobName);
             Job<?, ?> job = (Job<?, ?>) server.getItemByFullName(jobName, Job.class);
             if (job == null) {

@@ -13,17 +13,27 @@ import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
-public class GetUpstreamBuildNumber extends Step implements Serializable {
+public class GetJobBuildNumber extends Step implements Serializable {
 
     private static final long serialVersionUID = 1505586566993544821L;
 
     private String job = null;
 
     @DataBoundConstructor
-    public GetUpstreamBuildNumber(String job) {
+    public GetJobBuildNumber(String job) {
         this.job = job;
     }
+    @DataBoundSetter
+    public void setJob(String job) {
+      this.job=job;
+    }
+    
+    public String getJob() {
+      return this.job;
+    }
+    
 
     private Integer getBuildNumber() {
         Jenkins server = Jenkins.getInstanceOrNull();
@@ -62,10 +72,10 @@ public class GetUpstreamBuildNumber extends Step implements Serializable {
 
     private static class StepExecutionImpl extends SynchronousStepExecution<Integer> {
 
-        private static final long serialVersionUID = GetUpstreamBuildNumber.serialVersionUID;
-        private final GetUpstreamBuildNumber step;
+        private static final long serialVersionUID = GetJobBuildNumber.serialVersionUID;
+        private final GetJobBuildNumber step;
 
-        StepExecutionImpl(GetUpstreamBuildNumber step, StepContext context) {
+        StepExecutionImpl(GetJobBuildNumber step, StepContext context) {
             super(context);
             this.step = step;
         }

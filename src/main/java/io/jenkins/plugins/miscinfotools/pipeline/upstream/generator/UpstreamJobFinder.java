@@ -1,6 +1,7 @@
 package io.jenkins.plugins.miscinfotools.pipeline.upstream.generator;
 
 import hudson.Extension;
+//import hudson.model.Descriptor;
 import hudson.model.Item;
 import hudson.model.Job;
 import java.io.Serializable;
@@ -9,6 +10,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.regex.Pattern;
 import jenkins.model.Jenkins;
+
+//import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.workflow.steps.Step;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
@@ -16,58 +19,60 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
+
 import org.springframework.security.access.AccessDeniedException;
 
 public class UpstreamJobFinder extends Step implements Serializable {
 
     private static final long serialVersionUID = 1505586566993544821L;
-    private ArrayList<Pattern> includes;
-    private ArrayList<Pattern> excludes;
+    private ArrayList<String> includes;
+    private ArrayList<String> excludes;
+    
 
     @DataBoundSetter
     public void setIncludes(ArrayList<String> includes) {
-        this.includes = new ArrayList<Pattern>();
-        if (includes == null) throw new NullPointerException();
-        for (String str : includes) {
-            this.includes.add(Pattern.compile(str));
-        }
+        if(includes==null) throw new NullPointerException();
+        this.includes=includes;
     }
 
     public ArrayList<String> getIncludes() {
-        final ArrayList<String> list = new ArrayList<String>();
-        for (Pattern regex : includes) {
-            list.add(regex.pattern());
-        }
-        return list;
+        return this.includes;
     }
 
     public ArrayList<String> getExcludes() {
-        final ArrayList<String> list = new ArrayList<String>();
-        for (Pattern regex : excludes) {
-            list.add(regex.pattern());
-        }
-        return list;
+        return this.excludes;
     }
 
     @DataBoundSetter
     public void setExcludes(ArrayList<String> excludes) {
-
-        this.excludes = new ArrayList<Pattern>();
-        if (excludes == null) return;
-        for (String str : excludes) {
-            this.excludes.add(Pattern.compile(str));
+        if(excludes==null) {
+          this.excludes=new ArrayList<String>();
+          return;
         }
+        this.excludes=excludes;
     }
 
     @DataBoundConstructor
-    public UpstreamJobFinder(ArrayList<String> includes, ArrayList<String> excludes) {
-        this.setIncludes(includes);
-        this.setExcludes(excludes);
+    public UpstreamJobFinder(ArrayList<String> includes,ArrayList<String> excludes) {
+      this.setIncludes(includes);
+      this.setExcludes(excludes);
     }
 
     private ArrayList<String> getList() {
         ArrayList<String> list = new ArrayList<String>();
         if (includes.isEmpty()) return list;
+        ArrayList<Pattern> includes=new ArrayList<Pattern>();
+        ArrayList<Pattern> excludes=new ArrayList<Pattern>();
+        for (String str : this.includes) {
+            if(str.equals("")) continue;
+            includes.add(Pattern.compile(str));
+        }
+        if (includes.isEmpty()) return list;
+        for (String str : this.excludes) {
+            if(str.equals("")) continue;
+            excludes.add(Pattern.compile(str));
+        }
+        
         Jenkins server = Jenkins.getInstanceOrNull();
         // stop here if we have no instance of jenkins
         if (server == null) return list;
@@ -122,11 +127,6 @@ public class UpstreamJobFinder extends Step implements Serializable {
     public static final class DescriptorImpl extends StepDescriptor {
 
         @Override
-        public String getFunctionName() {
-            return "upstreamJobFinder";
-        }
-
-        @Override
         public String getDisplayName() {
             return "Upstream list generator";
         }
@@ -134,6 +134,11 @@ public class UpstreamJobFinder extends Step implements Serializable {
         @Override
         public Set<? extends Class<?>> getRequiredContext() {
             return Collections.emptySet();
+        }
+
+        @Override
+        public String getFunctionName() {
+          return "upstreamJobFinder";
         }
     }
 
