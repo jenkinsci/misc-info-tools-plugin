@@ -1,6 +1,7 @@
 package io.jenkins.plugins.miscinfotools.pipeline.upstream.generator;
 
 import hudson.Extension;
+import hudson.model.Item;
 import hudson.model.Job;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
+import org.springframework.security.access.AccessDeniedException;
 // import org.springframework.security.core.Authentication;
 
 public class UpstreamJobFinder extends Step implements Serializable {
@@ -97,6 +99,12 @@ public class UpstreamJobFinder extends Step implements Serializable {
             // Authentication authOk = t.authenticate(job,job.getQueueItem());
             // if (authOk == null || !authOk.isAuthenticated()) continue;
 
+            try {
+                job.checkPermission(Item.READ);
+            } catch (AccessDeniedException e) {
+                // skip this job if the user cannot read it
+                continue;
+            }
             list.add(name);
         }
         return list;
