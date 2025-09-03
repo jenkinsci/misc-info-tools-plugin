@@ -52,10 +52,10 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>org.jenkins-ci.plugins.workflow</groupId>
+      <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>authorize-project</artifactId>
-      <version>LATEST_COMPATIBLE_VERSION</version>
-      <!-- <scope>test</scope> -->
+      <!-- <version>2.0.0</version> -->
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>

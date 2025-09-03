@@ -1,7 +1,6 @@
 package io.jenkins.plugins.miscinfotools.pipeline.upstream.generator;
 
 import hudson.Extension;
-import hudson.model.Item;
 import hudson.model.Job;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
-import org.springframework.security.access.AccessDeniedException;
+// import org.springframework.security.core.Authentication;
 
 public class UpstreamJobFinder extends Step implements Serializable {
 
@@ -53,9 +52,12 @@ public class UpstreamJobFinder extends Step implements Serializable {
         this.setExcludes(excludes);
     }
 
+    // private ArrayList<String> getList(@SuppressWarnings("rawtypes") Job currentJob) {
     private ArrayList<String> getList() {
         ArrayList<String> list = new ArrayList<String>();
+        // if (includes.isEmpty() || currentJob == null) return list;
         if (includes.isEmpty()) return list;
+        // TriggeringUsersAuthorizationStrategy t = new TriggeringUsersAuthorizationStrategy();
         ArrayList<Pattern> includes = new ArrayList<Pattern>();
         ArrayList<Pattern> excludes = new ArrayList<Pattern>();
         for (String str : this.includes) {
@@ -73,22 +75,7 @@ public class UpstreamJobFinder extends Step implements Serializable {
         if (server == null) return list;
 
         for (Job<?, ?> job : server.getAllItems(Job.class)) {
-            boolean isAdmin = false;
-            try {
-                server.checkPermission(Jenkins.ADMINISTER);
-                isAdmin = true;
-            } catch (AccessDeniedException e) {
-                // nothing to do here
-            }
-            if (!isAdmin) {
-                try {
-                    job.checkPermission(Item.READ);
-                    job.checkPermission(Item.DISCOVER);
-                } catch (AccessDeniedException e) {
-                    // skip this job if the user cannot read it and is not allowed to discover it
-                    continue;
-                }
-            }
+
             String name = job.getFullName();
             boolean matchOk = false;
             for (Pattern ok : includes) {
@@ -107,6 +94,8 @@ public class UpstreamJobFinder extends Step implements Serializable {
                 }
             }
             if (!matchOk) continue;
+            // Authentication authOk = t.authenticate(job,job.getQueueItem());
+            // if (authOk == null || !authOk.isAuthenticated()) continue;
 
             list.add(name);
         }
@@ -115,6 +104,7 @@ public class UpstreamJobFinder extends Step implements Serializable {
 
     @Override
     public StepExecution start(StepContext context) throws Exception {
+
         return new StepExecutionImpl(this, context);
     }
 
@@ -141,14 +131,26 @@ public class UpstreamJobFinder extends Step implements Serializable {
 
         private static final long serialVersionUID = UpstreamJobFinder.serialVersionUID;
         private final UpstreamJobFinder step;
+        // @SuppressWarnings("rawtypes")
+        // private Job currentJob=null;
 
         StepExecutionImpl(UpstreamJobFinder step, StepContext context) {
             super(context);
+            // try {
+            // @SuppressWarnings("rawtypes")
+            // Run run = context.get(Run.class);
+            // currentJob = run.getParent();
+            // } catch (IOException e) {
+            // not worried about this
+            // } catch (InterruptedException e) {
+            // not worried about this
+            // }
             this.step = step;
         }
 
         @Override
         protected ArrayList<String> run() throws Exception {
+            // return step.getList(currentJob);
             return step.getList();
         }
     }
