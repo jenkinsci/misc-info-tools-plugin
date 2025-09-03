@@ -53,6 +53,12 @@
   <dependencies>
     <dependency>
       <groupId>org.jenkins-ci.plugins.workflow</groupId>
+      <artifactId>authorize-project</artifactId>
+      <version>LATEST_COMPATIBLE_VERSION</version>
+      <!-- <scope>test</scope> -->
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins.workflow</groupId>
       <artifactId>workflow-basic-steps</artifactId>
       <!-- <scope>test</scope> -->
     </dependency>
