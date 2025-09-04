@@ -1,6 +1,6 @@
 <div>
   <p>Takes a list of upstream job paths: deps, and an optional isBuilding boolean flag. </p>
-  <pre>    1. If any of the jobs are null: throws exception halts the job as FAILED.
+  <pre>  1. If any of the jobs are null: throws exception halts the job as FAILED.
     This be changed by setting: jobExists to false, default is true.
   2. If any of the jobs are building: thows exception and halts the job as ABORTED.
     This be changed by setting: isBuilding to false, default is true.
@@ -13,11 +13,9 @@
   <p>Example:</p>
 <pre>  checkUpStreamJobs deps: ['path/to/job','path/to/another/job'],
     // all of these are optional ( default is always true )
-    jobExists: true,             // aborts if the a job has never run
-    isBuilding: true,            // aborts if the job is building
-    inQueue: true,               // aborts if the job is in que
-    hasRun: true,                // aborts if the a job has never run
-    isSuccess: true,             // aborts if the last jobs is not in a state of success
-  ;
-</pre>
+    jobExists:  true, // fails if the a job has never run
+    isBuilding: true, // aborts if the job is building
+    inQueue:    true, // aborts if the job is in que 
+    hasRun:     true, // aborts if the a job has never run
+    isSuccess:  true  // aborts if the last jobs is not in a state of success</pre>
 </div>

@@ -57,11 +57,11 @@ This method has 2 use cases:
  String getCurrentBuildHost()
 ```
 
-### checkUpStreamJobs(deps,isBuilding)
+### checkUpStreamJobs(deps)
 
 This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing jenkins cluster load.  This functionality grows in value when a job can add or remove new upstream triggers on the fly.
 
-Arguments: Takes a list of job paths along with an optional "isBuilding" flag and checks for the following.
+Arguments: Takes a list of job paths along with an optional set of boolean flags
 
   1. If any of the jobs are null: throws exception halts the job as FAILED.
     This be changed by setting: jobExists to false, default is true.
