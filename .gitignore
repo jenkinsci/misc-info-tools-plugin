@@ -15,3 +15,6 @@ work
 .settings
 .classpath
 .project
+
+build.sh
+run.sh
