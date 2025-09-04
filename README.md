@@ -63,24 +63,33 @@ This method exists because when builds can have multiple upstream triggers, it i
 
 Arguments: Takes a list of job paths along with an optional "isBuilding" flag and checks for the following.
 
-  1. If any of the jobs are null: throws exception halts the job as FAILED
-  2. If any of the jobs are building: thows exception and halts the job as ABORTED
-  3. If any of the are not in state success: throws exception and halts the job as ABORTED
-    This can be cahnged with the isBuilding flag.  
-      When set to true (default false) 
-  4. If any of the jobs have never built throws an exception and halts the job ABORTED
-
+  1. If any of the jobs are null: throws exception halts the job as FAILED.
+    This be changed by setting: jobExists to false, default is true.
+  2. If any of the jobs are building: thows exception and halts the job as ABORTED.
+    This be changed by setting: isBuilding to false, default is true.
+  3. If any of the jobs are in the Queue: throws exception and halts the job as ABORTED.
+    This can be chagned by setting inQueue to false, default is true.
+  4. If any of the are not in state success: throws exception and halts the job as ABORTED.
+    This can be chagned by setting isSuccess to false, default is true.
+  5. If any of the jobs have never built throws an exception and halts the job ABORTED.
+    This can be chagned by setting hasRun to false, default is true.
 
 Default use case
 
 ```
-  checkUpStreamJobs(['Node-Label-Audit'])
+  checkUpStreamJobs(['path/to/job','path/to/another/job'])
 ```
 
-To allow concurrent build checking.
+Example showing all options
 
 ```
-  checkUpStreamJobs deps: ['Node-Label-Audit'], isBuilding:true
+  checkUpStreamJobs deps: ['path/to/job','path/to/another/job'], 
+    // all of these are optional ( default is always true )
+    jobExists:  true, // fails if the a job has never run
+    isBuilding: true, // aborts if the job is building
+    inQueue:    true, // aborts if the job is in que
+    hasRun:     true, // aborts if the a job has never run
+    isSuccess:  true  // aborts if the last jobs is not in a state of success
 ```
 
 ### getAllLabelsForAllNodes() 

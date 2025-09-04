@@ -27,7 +27,38 @@ public class SaneUpstreamChecker extends Step implements Serializable {
 
     private ArrayList<String> deps;
 
-    private boolean isBuilding = false;
+    private boolean isBuilding = true;
+    private boolean inQueue = true;
+    private boolean isSuccess = true;
+    private boolean jobExists = true;
+    private boolean hasRun = true;
+
+    public boolean getHasRun() {
+        return hasRun;
+    }
+
+    @DataBoundSetter
+    public void setHasRun(boolean hasRun) {
+        this.hasRun = hasRun;
+    }
+
+    public boolean getJobExists() {
+        return jobExists;
+    }
+
+    @DataBoundSetter
+    public void setJobExists(boolean jobExists) {
+        this.jobExists = jobExists;
+    }
+
+    public boolean getInQueue() {
+        return inQueue;
+    }
+
+    @DataBoundSetter
+    public void setInQueue(boolean inQueue) {
+        this.inQueue = inQueue;
+    }
 
     public boolean getIsBuilding() {
         return isBuilding;
@@ -61,7 +92,16 @@ public class SaneUpstreamChecker extends Step implements Serializable {
 
     @Override
     public StepExecution start(StepContext context) throws Exception {
-        return new SanityStep(context, isBuilding, deps);
+        return new SanityStep(context, isBuilding, deps, inQueue, isSuccess, jobExists, hasRun);
+    }
+
+    public boolean getIsSuccess() {
+        return isSuccess;
+    }
+
+    @DataBoundSetter
+    public void setIsSuccess(boolean isSuccess) {
+        this.isSuccess = isSuccess;
     }
 
     @Extension
