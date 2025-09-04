@@ -127,7 +127,7 @@ public class SaneUpstreamChecker extends Step {
                 throw new InterruptedException("Job: " + jobName + ", is not in state SUCCESS!");
             }
         }
-        logger.println("All jobs look good");
+        logger.println("All requested jobs look good!");
         return null;
       }
 

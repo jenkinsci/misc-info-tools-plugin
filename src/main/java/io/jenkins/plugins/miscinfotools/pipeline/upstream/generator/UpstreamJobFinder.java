@@ -116,7 +116,7 @@ public class UpstreamJobFinder extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "upstreamJobFinder";
+            return "findJobs";
         }
     }
 

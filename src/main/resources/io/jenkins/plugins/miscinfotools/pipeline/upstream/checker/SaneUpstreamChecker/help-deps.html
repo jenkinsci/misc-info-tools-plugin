@@ -1,9 +1,18 @@
 <div>
-  <p>This is the list of regular expressions to match</p>
+  <p>Takes a list of upstream job paths: deps, and an optional isBuilding boolean flag. </p>
+  <pre>  1. If any of the jobs are null: throws exception halts the job as FAILED
+  2. If any of the jobs are building: thows exception and halts the job as ABORTED
+    This can be disabled by setting isBuilding to true
+  3. If any of the are not in state success: throws exception and halts the job as ABORTED
+  4. If any of the jobs have never built throws an exception and halts the job ABORTED
+  </pre>
   <p>Example:</p>
 <pre>checkUpStreamJobs
   deps: [
-    ".*some/path.*/one$",
-    ".*some/path.*/two$",
-  ]</pre>
+    "some/path/one",
+    "some/path/two",
+  ],
+  // default
+  isBulding: false
+</pre>
 </div>
