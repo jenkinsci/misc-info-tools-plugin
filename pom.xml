@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>5.9</version>
+    <version>5.24</version>
     <relativePath />
   </parent>
   <groupId>io.jenkins.plugins</groupId>
@@ -85,4 +85,21 @@
       <url>https://repo.jenkins-ci.org/public/</url>
     </pluginRepository>
   </pluginRepositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jenkins-ci.tools</groupId>
+        <artifactId>maven-hpi-plugin</artifactId>
+        <configuration>
+          <!-- Enable the strict check to fail the build on any mismatch -->
+          <strictBundledArtifactsCheck>true</strictBundledArtifactsCheck>
+          <!-- Would be a comma seperated list of libs.. but we don't have any right now
+          <bundledArtifacts>
+            <bundledArtifact></bundledArtifact>
+          </bundledArtifacts>
+          -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
