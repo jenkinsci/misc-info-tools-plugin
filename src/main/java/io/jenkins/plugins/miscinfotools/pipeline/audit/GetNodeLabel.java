@@ -38,7 +38,7 @@ public class GetNodeLabel extends Step implements Serializable {
 
         @Override
         public String getDisplayName() {
-            return "Get the Jenkins Node node label";
+            return "Get All Jenkins Nodes and Labels";
         }
 
         @Override
