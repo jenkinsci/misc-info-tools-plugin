@@ -11,7 +11,7 @@ This project provides useful information expressed through functions in a Jenkin
   5. Providing a way to get the label of the node this job ran on
 
 
-# Precautions when using upstreamJobFinder(includes,excludes)
+# Precautions when using findJobs(includes,excludes)
 
 The upstreamJobFinder(includes,excludes) can expose paths to projects your user user does not have access to. It is recommended that the "authorize-project" plugin be installed and configured to prevent unrestricted access to projects.
 
@@ -57,12 +57,9 @@ This method has 2 use cases:
  String getCurrentBuildHost()
 ```
 
-TLDR
-
-
 ### checkUpStreamJobs(deps,isBuilding)
 
-This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing jenkins cluster load.  This functionality grows in value when a job can add new upstream triggers on the fly.
+This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing jenkins cluster load.  This functionality grows in value when a job can add or remove new upstream triggers on the fly.
 
 Arguments: Takes a list of job paths along with an optional "isBuilding" flag and checks for the following.
 
@@ -75,11 +72,13 @@ Arguments: Takes a list of job paths along with an optional "isBuilding" flag an
 
 
 Default use case
+
 ```
   checkUpStreamJobs(['Node-Label-Audit'])
 ```
 
 To allow concurrent build checking.
+
 ```
   checkUpStreamJobs deps: ['Node-Label-Audit'], isBuilding:true
 ```
@@ -92,9 +91,9 @@ This method provides the node to list of node labels.
   HashMap<String,ArrayList<String>> getAllLabelsForAllNodes()
 ```
 
-## Getting started
+## Example
 
-Jenkinsfile Example
+Jenkinsfile Example with all methods incldued.
 
 ```
 // white list upstream job pattern matches
@@ -179,7 +178,6 @@ pipeline {
         }
       }
     }
-
   }
 }
 
