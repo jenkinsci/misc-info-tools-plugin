@@ -5,6 +5,7 @@
     This can be disabled by setting isBuilding to true
   3. If any of the are not in state success: throws exception and halts the job as ABORTED
   4. If any of the jobs have never built throws an exception and halts the job ABORTED
+  5. If the last build is not in state SUCCESS an exception is throw and the job is ABORTED
   </pre>
   <p>Example:</p>
 <pre>checkUpStreamJobs
