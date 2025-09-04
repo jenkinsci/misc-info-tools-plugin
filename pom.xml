@@ -36,6 +36,7 @@
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
     <spotbugs.effort>Max</spotbugs.effort>
     <spotbugs.threshold>Low</spotbugs.threshold>
+    <hpi.strictBundledArtifacts>true</hpi.strictBundledArtifacts>
   </properties>
 
   <dependencyManagement>
@@ -92,7 +93,8 @@
         <artifactId>maven-hpi-plugin</artifactId>
         <configuration>
           <!-- Enable the strict check to fail the build on any mismatch -->
-          <strictBundledArtifactsCheck>true</strictBundledArtifactsCheck>
+          <!-- ?? not working 
+          <strictBundledArtifactsCheck>true</strictBundledArtifactsCheck> -->
           <!-- Would be a comma seperated list of libs.. but we don't have any right now
           <bundledArtifacts>
             <bundledArtifact></bundledArtifact>
