@@ -1,5 +1,59 @@
 package io.jenkins.plugins.miscinfotools.pipeline.upstream.checker;
 
-public class SanityStep {
+import hudson.AbortException;
+import hudson.model.Job;
+import hudson.model.Result;
+import hudson.model.Run;
+import hudson.model.TaskListener;
+import java.io.PrintStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import jenkins.model.Jenkins;
+import org.jenkinsci.plugins.workflow.steps.StepContext;
+import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution;
 
+public class SanityStep extends SynchronousStepExecution<Void> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private StepContext context;
+    private boolean isBuilding;
+    private ArrayList<String> deps;
+
+    protected SanityStep(StepContext context, boolean isBuilding, ArrayList<String> deps) {
+        super(context);
+        this.isBuilding = isBuilding;
+        this.context = context;
+        this.deps = deps;
+    }
+
+    @Override
+    protected Void run() throws Exception {
+        Jenkins server = Jenkins.getInstanceOrNull();
+        if (server == null) return null;
+        PrintStream logger = getContext().get(TaskListener.class).getLogger();
+        for (String jobName : deps) {
+            logger.println("Testing Job: " + jobName);
+            Job<?, ?> job = (Job<?, ?>) server.getItemByFullName(jobName, Job.class);
+            if (job == null) {
+                context.setResult(Result.FAILURE);
+                throw new AbortException("Job: " + jobName + ", does not exist!");
+            } else if (!isBuilding && job.isBuilding()) {
+                context.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ". is currently building!");
+            } else if (job.isInQueue()) {
+                context.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ", is currently in queue!");
+            }
+            Run<?, ?> last = job.getLastCompletedBuild();
+            if (null == last) {
+                context.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ", has never run!");
+            } else if (Result.SUCCESS != last.getResult()) {
+                context.setResult(Result.ABORTED);
+                throw new InterruptedException("Job: " + jobName + ", is not in state SUCCESS!");
+            }
+        }
+        logger.println("All requested jobs look good!");
+        return null;
+    }
 }

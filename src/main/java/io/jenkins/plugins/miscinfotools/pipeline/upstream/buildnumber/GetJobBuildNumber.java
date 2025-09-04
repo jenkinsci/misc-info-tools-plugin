@@ -56,7 +56,7 @@ public class GetJobBuildNumber extends Step implements Serializable {
 
         @Override
         public String getFunctionName() {
-            return "getJobBuildNumber";
+            return "getLastSuccessfulBuildNumber";
         }
 
         @Override

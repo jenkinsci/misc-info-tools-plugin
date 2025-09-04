@@ -24,20 +24,20 @@ It is strongly recommended that the "authorize-project" be installed and configu
 
 ## Functions
 
-### upstreamJobFinder(includes,excludes)
+### findJobs(includes,excludes)
 
 This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The white/black list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
 
 ```
-  ArrayList<String>  upstreamJobFinder(ArrayList<String> includes, ArrayList<String> excludes)
+  ArrayList<String> findJobs(ArrayList<String> includes, ArrayList<String> excludes)
 ```
 
-### getJobBuildNumber(job)
+### getLastSuccessfulBuildNumber(job)
 
 This method provides the build numbner of the given job by job path.
 
 ```
-  int getJobBuildNumber(String job)
+  int getLastSuccessfulBuildNumber(String job)
 ```
 
 This method returns the last BUILD_ID of the given job.
@@ -60,19 +60,28 @@ This method has 2 use cases:
 TLDR
 
 
-### checkUpStreamJobs(deps)
+### checkUpStreamJobs(deps,isBuilding)
 
 This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing jenkins cluster load.  This functionality grows in value when a job can add new upstream triggers on the fly.
 
-Arguments: Takes a list of job paths and checks for the following.
+Arguments: Takes a list of job paths along with an optional "isBuilding" flag and checks for the following.
 
   1. If any of the jobs are null: throws exception halts the job as FAILED
   2. If any of the jobs are building: thows exception and halts the job as ABORTED
   3. If any of the are not in state success: throws exception and halts the job as ABORTED
+    This can be cahnged with the isBuilding flag.  
+      When set to true (default false) 
   4. If any of the jobs have never built throws an exception and halts the job ABORTED
 
+
+Default use case
 ```
-  void checkUpStreamJobs(ArrayList<String> deps)
+  checkUpStreamJobs(['Node-Label-Audit'])
+```
+
+To allow concurrent build checking.
+```
+  checkUpStreamJobs deps: ['Node-Label-Audit'], isBuilding:true
 ```
 
 ### getAllLabelsForAllNodes() 
@@ -118,7 +127,7 @@ pipeline {
     stage("Job Check") {
       steps {
         echo "Our Job is: ${env.JOB_NAME}";
-        echo "Last Build was: ${getJobBuildNumber(env.JOB_NAME)}";
+        echo "Last Build was: ${getLastSuccessfulBuildNumber(env.JOB_NAME)}";
       }
     }
 
@@ -158,7 +167,7 @@ pipeline {
     stage("Node list label dump") {
       steps {
         script {
-          def audit=nodeLabelAudit();
+          def audit=getAllLabelsForAllNodes();
           def keys=audit.keySet();
 
           for( String key : keys ) {

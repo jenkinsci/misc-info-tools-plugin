@@ -72,15 +72,15 @@ public class GetCurrentBuildHost extends Step implements Serializable {
 
     private static class AgentCallable implements Callable<String, IOException>, Serializable {
         private static final long serialVersionUID = 1L;
-        //private final TaskListener listener;
+        // private final TaskListener listener;
 
         AgentCallable(TaskListener listener) {
-           // this.listener = listener;
+            // this.listener = listener;
         }
 
         @Override
         public String call() throws IOException {
-            //listener.getLogger().println("Executing remotely on the agent.");
+            // listener.getLogger().println("Executing remotely on the agent.");
             return java.net.InetAddress.getLocalHost().getHostName();
         }
 
