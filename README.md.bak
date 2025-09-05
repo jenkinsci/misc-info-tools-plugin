@@ -7,7 +7,7 @@ This project provides useful information expressed through functions in a Jenkin
   1. Provides a list of job paths based on regular expression includes/excludes lists.
   2. Getting an upstream job build number
   3. Getting the hostname of the build node your job is running on
-  4. Shutting down a build if based on the health/build status of multiple builds
+  4. Shutting down a build if based on the health/build status of mutiple builds
   5. Providing a way to get the label of the node this job ran on
 
 
@@ -17,7 +17,7 @@ The findJobs(includes,excludes) can expose paths to projects your user user does
 
 The following considerations should be taken into account when installing this plugin:
 
-  1. Any User who can configure a pipeline can by default see a listing of all jobs in Jenkins that the system user can read.
+  1. Any User who can configure a pipeline can by default see a listing of all jobs in jenkins that the system user can read.
   2. Any User who can commit changes or create Jenkinsfile from SCM can by default list all the projects the system user can read.
 
 It is strongly recommended that the "authorize-project" be installed and configured before this plugin is installed.
@@ -26,7 +26,7 @@ It is strongly recommended that the "authorize-project" be installed and configu
 
 ### findJobs(includes,excludes)
 
-This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The includes/excludes list are both are optional, when provided they are compiled as regular expressions and used to compare job paths for matches.
+This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The includes/excludes list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
 
 ```
   ArrayList<String> findJobs(ArrayList<String> includes, ArrayList<String> excludes)
@@ -34,7 +34,7 @@ This method provides a way to dynamically list projects using regular expression
 
 ### getLastSuccessfulBuildNumber(job)
 
-This method provides the build number of the given job by job path.
+This method provides the build numbner of the given job by job path.
 
 ```
   int getLastSuccessfulBuildNumber(String job)
@@ -44,13 +44,13 @@ This method returns the last BUILD_ID of the given job.
 
 ### getCurrentBuildHost()
 
-This method returns the name of the current build host from Jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and its "Who's hostname is this really delema" and since java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for red-hat or Debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.
+This method returns the name of the current build host from jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and its "Who's hostname is this really delema" and since java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.
 
 Notes about this method:
 
 This method has 2 use cases:
 
-  1. In the pre-pipeline it will return the hostname of the Jenkins controller
+  1. In the pre-pipeline it will return the hostname of the Jenkins controler
   2. When running in a stage on an agent it will return the hostname of that agent.
 
 ```
@@ -59,20 +59,20 @@ This method has 2 use cases:
 
 ### checkUpStreamJobs(deps)
 
-This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing Jenkins cluster load.  This functionality grows in value when a job can add or remove new upstream triggers on the fly.
+This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing jenkins cluster load.  This functionality grows in value when a job can add or remove new upstream triggers on the fly.
 
 Arguments: Takes a list of job paths along with an optional set of boolean flags
 
   1. If any of the jobs are null: throws exception halts the job as FAILED.
     This be changed by setting: jobExists to false, default is true.
-  2. If any of the jobs are building: throws exception and halts the job as ABORTED.
+  2. If any of the jobs are building: thows exception and halts the job as ABORTED.
     This be changed by setting: isBuilding to false, default is true.
   3. If any of the jobs are in the Queue: throws exception and halts the job as ABORTED.
-    This can be changed by setting inQueue to false, default is true.
+    This can be chagned by setting inQueue to false, default is true.
   4. If any of the are not in state success: throws exception and halts the job as ABORTED.
-    This can be changed by setting isSuccess to false, default is true.
+    This can be chagned by setting isSuccess to false, default is true.
   5. If any of the jobs have never built throws an exception and halts the job ABORTED.
-    This can be changed by setting hasRun to false, default is true.
+    This can be chagned by setting hasRun to false, default is true.
 
 Default use case
 
@@ -102,7 +102,7 @@ This method provides the node to list of node labels.
 
 ## Example
 
-Jenkinsfile Example with all methods included.
+Jenkinsfile Example with all methods incldued.
 
 ```
 // includes list upstream job pattern matches
@@ -227,7 +227,7 @@ To execute the unit tests
 ```
   mvn test 
 ```
-The artifact produced by this project is a .hpi file.  The .hpi extension represents a compiled jenkins plugin.
+The artifact produced by this project is a .hpi file.  The .hpi extention represents a compiled jenkins plugin.
 
 ### Building the jenkins plugin
 
@@ -237,7 +237,7 @@ The jenkins plugin can be built by issuing the following command.
   mvn hpi:hpi
 ```
 
-### Production builds should run the following
+### Production builds should run the follwowing
 
 If you are trying to compile a safe to use/working hpi file please use the following:
 
