@@ -4,7 +4,7 @@ This plugin's functionality is meant to make it a lot easier to trigger dynamic 
 
 This project provides useful information expressed through functions in a Jenkinsfile pipeline.  The features include:
 
-  1. Provides a list of job paths based on regular expression white/black lists.
+  1. Provides a list of job paths based on regular expression includes/excludes lists.
   2. Getting an upstream job build number
   3. Getting the hostname of the build node your job is running on
   4. Shutting down a build if based on the health/build status of mutiple builds
@@ -26,7 +26,7 @@ It is strongly recommended that the "authorize-project" be installed and configu
 
 ### findJobs(includes,excludes)
 
-This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The white/black list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
+This method provides a way to dynamically list projects using regular expressions and provides the list of project path names as the return value.  The includes/excludes list are both are optional, when provided they are compiled as regular expressions and used to compaire job paths for matches.
 
 ```
   ArrayList<String> findJobs(ArrayList<String> includes, ArrayList<String> excludes)
@@ -105,10 +105,10 @@ This method provides the node to list of node labels.
 Jenkinsfile Example with all methods incldued.
 
 ```
-// white list upstream job pattern matches
+// includes list upstream job pattern matches
 def includes=[/^.*evaluation\/.*_.*$/];
 
-// black list upstream job pattern matches
+// excludes list upstream job pattern matches
 def excludes=[/^.*custom_plugin_tests.*$/];
 
 // dynamically find our upstream jobs
