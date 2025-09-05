@@ -4,6 +4,8 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
+import jenkins.security.Roles;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -86,7 +88,9 @@ public class GetCurrentBuildHost extends Step implements Serializable {
 
         @Override
         public void checkRoles(RoleChecker checker) throws SecurityException {
-            // required.. but no really used here..
+          // based on: https://www.jenkins.io/doc/developer/security/remoting-callables/#minimal-safe-implementations
+          // I mean we are just doing a hostname lookup on the build node.
+          checker.check(this,Roles.SLAVE);
         }
     }
 }
