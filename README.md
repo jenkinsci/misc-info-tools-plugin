@@ -13,7 +13,7 @@ This project provides useful information expressed through functions in a Jenkin
 
 # Precautions when using findJobs(includes,excludes)
 
-The upstreamJobFinder(includes,excludes) can expose paths to projects your user user does not have access to. It is recommended that the "authorize-project" plugin be installed and configured to prevent unrestricted access to projects.
+The findJobs(includes,excludes) can expose paths to projects your user user does not have access to. It is recommended that the "authorize-project" plugin be installed and configured to prevent unrestricted access to projects.
 
 The following considerations should be taken into account when installing this plugin:
 
@@ -44,7 +44,7 @@ This method returns the last BUILD_ID of the given job.
 
 ### getCurrentBuildHost()
 
-This method returns the name of the current build host from jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and its "Who's hostname is this really delema" and sine java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.
+This method returns the name of the current build host from jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and its "Who's hostname is this really delema" and since java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for redhat or debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.
 
 Notes about this method:
 
@@ -112,7 +112,7 @@ def includes=[/^.*evaluation\/.*_.*$/];
 def excludes=[/^.*custom_plugin_tests.*$/];
 
 // dynamically find our upstream jobs
-def fulldeps=upstreamJobFinder(
+def fulldeps=findJobs(
   // array list of patterns to match upstream projects
   includes: includes, 
 
