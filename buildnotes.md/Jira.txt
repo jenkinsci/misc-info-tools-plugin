@@ -1,2 +1,0 @@
-Github issue open.. keeps saying the project needs to end in -plugin??
-https://github.com/jenkins-infra/repository-permissions-updater/issues/4618
