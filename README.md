@@ -61,13 +61,14 @@ This method exists because when builds can have multiple related triggers, it is
 
 Arguments: Takes a list of job paths along with an optional set of boolean flags
 
-| Option | When true |
-| :----: | :-------: |
-| jobExists |  fails if the a job has never run |
-| isBuilding | aborts if the job is building |
-| inQueue | aborts if the job is in que |
-| hasRun | aborts if the a job has never run |
-| isSuccess | aborts if the last jobs is not in a state of success |
+| Argument | Required | Description |
+| :----: | :-------: | :---: |
+| deps | yes | a list of job path strings |
+| jobExists | no |  fails if the a job has never run |
+| isBuilding | no| aborts if the job is building |
+| inQueue | no | aborts if the job is in que |
+| hasRun | no |aborts if the a job has never run |
+| isSuccess |no | aborts if the last jobs is not in a state of success |
 
 Default use case
 
