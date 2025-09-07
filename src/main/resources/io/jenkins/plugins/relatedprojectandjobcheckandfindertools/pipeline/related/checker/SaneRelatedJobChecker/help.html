@@ -1,0 +1,16 @@
+<div>
+  <p>Takes a list of related job paths: deps, and an optional boolean flag(s).  The sanity check operations are run against all jobs that are listed, any job that fails these checks will cause this build to halt by throwing an exception.  To disable a sanity check, set the option to false. </p>
+  <pre>  1. jobExists: If any of the jobs are null: throws exception halts the job as FAILED.
+  2. isBuilding: If any of the jobs are building: thows exception and halts the job as ABORTED.
+  3. inQueue: If any of the jobs are in the Queue: throws exception and halts the job as ABORTED.
+  4. isSuccess: If any of the are not in state success: throws exception and halts the job as ABORTED.
+  5. hasRun: If any of the jobs have never built throws an exception and halts the job ABORTED.
+  <p>Example:</p>
+<pre>  relatedJobChecks deps: ['path/to/job','path/to/another/job'],
+    // all of these are optional ( default is always true )
+    jobExists:  true, // fails if the a job has never run
+    isBuilding: true, // aborts if the job is building
+    inQueue:    true, // aborts if the job is in que 
+    hasRun:     true, // aborts if the a job has never run
+    isSuccess:  true  // aborts if the last jobs is not in a state of success</pre>
+</div>

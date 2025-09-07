@@ -1,11 +1,11 @@
-# Misc Jenkins pipeline functions
+# Related Job pipeline functions
 
-This plugin's functionality is meant to make it a lot easier to trigger dynamic upstream checks when it comes to massive numbers of multi branch pipelines. When you have jobs with slightly different names coming and going in the thousands, having to write multiple script rest calls gets rather cumbersome. The ability to use just 2 key words to sanity check the upstream jobs is very handy.
+This plugin's functionality is meant to make it a lot easier to trigger dynamic related checks when it comes to massive numbers of multi branch pipelines. When you have jobs with slightly different names coming and going in the thousands, having to write multiple script rest calls gets rather cumbersome. The ability to use just 2 key words to sanity check the related jobs is very handy.
 
 This project provides useful information expressed through functions in a Jenkinsfile pipeline.  The features include:
 
   1. Provides a list of job paths based on regular expression includes/excludes lists.
-  2. Getting an upstream job build number
+  2. Getting an related job build number
   3. Getting the hostname of the build node your job is running on
   4. Shutting down a build if based on the health/build status of multiple builds
   5. Providing a way to get the label of the node this job ran on
@@ -57,9 +57,9 @@ This method has 2 use cases:
  String getCurrentBuildHost()
 ```
 
-### checkUpStreamJobs(deps)
+### relatedJobChecks(deps)
 
-This method exists because when builds can have multiple upstream triggers, it is nice to make sure all upstream job are working, exist and are healthy, along with reducing Jenkins cluster load.  This functionality grows in value when a job can add or remove new upstream triggers on the fly.
+This method exists because when builds can have multiple related triggers, it is nice to make sure all related job are working, exist and are healthy, along with reducing Jenkins cluster load.  This functionality grows in value when a job can add or remove new related triggers on the fly.
 
 Arguments: Takes a list of job paths along with an optional set of boolean flags
 
@@ -77,13 +77,13 @@ Arguments: Takes a list of job paths along with an optional set of boolean flags
 Default use case
 
 ```
-  checkUpStreamJobs(['path/to/job','path/to/another/job'])
+  relatedJobChecks(['path/to/job','path/to/another/job'])
 ```
 
 Example showing all options
 
 ```
-  checkUpStreamJobs deps: ['path/to/job','path/to/another/job'], 
+  relatedJobChecks deps: ['path/to/job','path/to/another/job'], 
     // all of these are optional ( default is always true )
     jobExists:  true, // fails if the a job has never run
     isBuilding: true, // aborts if the job is building
@@ -105,27 +105,27 @@ This method provides the node to list of node labels.
 Jenkinsfile Example with all methods included.
 
 ```
-// includes list upstream job pattern matches
+// includes list related job pattern matches
 def includes=[/^.*evaluation\/.*_.*$/];
 
-// excludes list upstream job pattern matches
+// excludes list related job pattern matches
 def excludes=[/^.*custom_plugin_tests.*$/];
 
-// dynamically find our upstream jobs
+// dynamically find our related jobs
 def fulldeps=findJobs(
-  // array list of patterns to match upstream projects
+  // array list of patterns to match related projects
   includes: includes, 
 
-  // array list of patterns to exclude upstream projects
+  // array list of patterns to exclude related projects
   excludes: excludes
 );
 
-// Dynamically rebuild our upstreamProjects
+// Dynamically rebuild our relatedProjects
 def deplist=fulldeps.join(',');
 
 pipeline {
   triggers {
-    // Apply our dynamic list of upstream projects to watch
+    // Apply our dynamic list of related projects to watch
     upstream(upstreamProjects: deplist, threshold: hudson.model.Result.SUCCESS)
   }
 
@@ -142,7 +142,7 @@ pipeline {
     stage("Job sanity check") {
       steps {
         // evaluate if this job should be running at all
-        checkUpStreamJobs(fulldeps);
+        relatedJobChecks(fulldeps);
       }
     }
 
@@ -156,7 +156,7 @@ pipeline {
       steps {
         script {
           echo "Deplist string: \n  ${deplist}";
-          echo "Discovered upstream jobs:"
+          echo "Discovered related jobs:"
           for( String str : fulldeps ) {
             echo "  ${str}"
           }

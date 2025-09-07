@@ -1,0 +1,14 @@
+<div>
+  <p>Method to find jobs based list of regular expressions for inclusions followed by exclusions.  The return value will be the discovered list of jobs represented strings.  Depending on how Jenkins is configured some of these jobs may be inaccessible.</p>
+  <p>Example:</p>
+<pre>  findJobs(
+    includes: [
+      "^some/path/one$",
+      "^some/path/two$",
+    ],
+    excludes: [
+      "^.*ignore/Me.*$"
+    ]
+  )
+</pre>
+</div>
