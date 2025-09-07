@@ -1,4 +1,4 @@
-# Related Job pipeline functions
+# Misc Jenkins pipeline functions
 
 This plugin's functionality is meant to make it a lot easier to trigger dynamic related checks when it comes to massive numbers of multi branch pipelines. When you have jobs with slightly different names coming and going in the thousands, having to write multiple script rest calls gets rather cumbersome. The ability to use just 2 key words to sanity check the related jobs is very handy.
 
@@ -9,7 +9,6 @@ This project provides useful information expressed through functions in a Jenkin
   3. Getting the hostname of the build node your job is running on
   4. Shutting down a build if based on the health/build status of multiple builds
   5. Providing a way to get the label of the node this job ran on
-
 
 # Precautions when using findJobs(includes,excludes)
 
