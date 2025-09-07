@@ -69,8 +69,6 @@ Arguments: Takes a list of job paths along with an optional set of boolean flags
 | hasRun | aborts if the a job has never run |
 | isSuccess | aborts if the last jobs is not in a state of success |
 
-```
-
 Default use case
 
 ```
