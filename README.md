@@ -39,7 +39,7 @@ This method provides the build number of the given job by job path.
   int getLastSuccessfulBuildNumber(String job)
 ```
 
-This method returns the last BUILD_ID of the given job.
+This method returns the last successful BUILD_ID of the given job if any.
 
 ### getCurrentBuildHost()
 
