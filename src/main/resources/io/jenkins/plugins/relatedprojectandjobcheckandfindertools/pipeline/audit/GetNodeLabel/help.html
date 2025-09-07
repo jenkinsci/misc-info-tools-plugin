@@ -1,0 +1,13 @@
+<div>
+  <p>This method provides the node to list of node labels</p>
+  <p>Example:</p>
+  <pre>def audit=getAllLabelsForAllNodes();
+  def keys=audit.keySet();
+  for( String key : keys ) {
+    echo "Node: ${key}"
+    for( String label : audit[key]) {
+      echo "  Label: ${label}"
+    }
+  }
+</pre>
+<div>

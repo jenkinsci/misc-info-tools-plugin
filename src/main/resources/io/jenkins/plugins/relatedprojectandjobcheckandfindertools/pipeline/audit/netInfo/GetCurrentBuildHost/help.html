@@ -1,7 +1,0 @@
-<div><p>This method returns the name of the current build host from Jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and the "Who's hostname is this really problem it creates". Often times this is required when building system packages for red-hat or Debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.  </p>
-
-  <p>This method has 2 use cases:</p>
-
-<pre>  1. In the pre-pipeline it will return the hostname of the Jenkins controller
-  2. When running in a stage on an agent it will return the hostname of that agent.</pre>
-</div>
