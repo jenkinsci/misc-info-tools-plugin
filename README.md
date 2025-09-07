@@ -57,7 +57,7 @@ This method has 2 use cases:
 
 ### relatedJobChecks(deps)
 
-This method exists because when builds can have multiple related triggers, it is nice to make sure all related job are working, exist and are healthy, along with reducing Jenkins cluster load.  This functionality grows in value when a job can add or remove new related triggers on the fly.
+This method exists because when builds can have multiple related triggers, and making sure the latest related jobs are all in an expected working order.  Since this method acts as a quick way to shutdown a build based on the state of related projects, this can also Jenkins cluster load.  This functionality grows in value when a job can add or remove new related triggers on the fly with findJobs(...).
 
 Arguments: Takes a list of job paths along with an optional set of boolean flags
 
