@@ -61,16 +61,15 @@ This method exists because when builds can have multiple related triggers, it is
 
 Arguments: Takes a list of job paths along with an optional set of boolean flags
 
-  1. If any of the jobs are null: throws exception halts the job as FAILED.
-    This be changed by setting: jobExists to false, default is true.
-  2. If any of the jobs are building: throws exception and halts the job as ABORTED.
-    This be changed by setting: isBuilding to false, default is true.
-  3. If any of the jobs are in the Queue: throws exception and halts the job as ABORTED.
-    This can be changed by setting inQueue to false, default is true.
-  4. If any of the are not in state success: throws exception and halts the job as ABORTED.
-    This can be changed by setting isSuccess to false, default is true.
-  5. If any of the jobs have never built throws an exception and halts the job ABORTED.
-    This can be changed by setting hasRun to false, default is true.
+| Option | When true |
+| :----: | :-------: |
+| jobExists |  fails if the a job has never run |
+| isBuilding | aborts if the job is building |
+| inQueue | aborts if the job is in que |
+| hasRun | aborts if the a job has never run |
+| isSuccess | aborts if the last jobs is not in a state of success |
+
+```
 
 Default use case
 
