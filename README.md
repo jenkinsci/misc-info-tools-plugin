@@ -1,6 +1,6 @@
 # Misc Jenkins pipeline functions
 
-This plugin's functionality is meant to make it a lot easier to trigger dynamic related checks when it comes to massive numbers of multi branch pipelines. When you have jobs with slightly different names coming and going in the thousands, having to write multiple script rest calls gets rather cumbersome. The ability to use just 2 key words to sanity check the related jobs is very handy.
+This plugin's functionality is meant to make it a lot easier to trigger dynamic related checks when it comes to massive numbers of multi branch pipelines. When you have jobs with slightly different names coming and going in the thousands, having to write multiple script rest calls gets rather cumbersome. The ability to use just 2 key words to sanity check the related jobs is very handy.  All of the functions in this plugin are only designed and intended to work in a pipeline or multipe branch pipeline, not in any other kind of build.
 
 This project provides useful information expressed through functions in a Jenkinsfile pipeline.  The features include:
 
@@ -21,7 +21,7 @@ The following considerations should be taken into account when installing this p
 
 It is strongly recommended that the "authorize-project" be installed and configured before this plugin is installed.
 
-## Functions
+## Pipeline Functions
 
 ### findJobs(includes,excludes)
 
