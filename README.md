@@ -44,8 +44,7 @@ This method returns the last BUILD_ID of the given job.
 
 ### getCurrentBuildHost()
 
-This method returns the name of the current build host from Jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and its "Who's hostname is this really delema" and since java.net.InetAddress.getLocalHost().getHostName() is restricted by default in a Jenkins pipeline.  Often times this is required when building system packages for red-hat or Debian, the build node hostname is typically a required argument for the build tools.  This will return the same value.
-
+This method returns the name of the current build host from Jenkins.  This method exists because of the dind or Docker inside docker hostname delema.. and the "Who's hostname is this really problem it creates". Often times this is required when building system packages for red-hat or Debian, the build node hostname is typically a required argument for the build tools.  This will return the same value. 
 Notes about this method:
 
 This method has 2 use cases:
