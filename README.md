@@ -64,7 +64,7 @@ Arguments: Takes a list of job paths along with an optional set of boolean flags
 | Argument | Required | type | Description |
 | :----: | :-------: | :---: | :---: |
 | deps | yes | ArrayList of String | Each element should be a job path to check |
-| jobExists | no | boolean |  marks this job as failed, if any of the jobs listend in deps do not exists |
+| jobExists | no | boolean |  marks this job as failed, if any of the jobs listend in deps do not exist |
 | isBuilding | no | boolean | aborts this job, if any of the of the jobs listed in deps jobs are building |
 | inQueue | no | boolean | aborts this job, if any of the jobs listed in deps are in the queue |
 | hasRun | no | boolean | aborts this job if, this job if any job listed in deps has never run has never run |
