@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.related.checker;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.related.checker;
 /*
  * This class is based on the following documentation
  * https://www.jenkins.io/doc/developer/plugin-development/pipeline-integration/

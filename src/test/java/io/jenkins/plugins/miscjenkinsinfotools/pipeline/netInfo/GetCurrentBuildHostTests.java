@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.netInfo;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.netInfo;
 
 import hudson.model.Label;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;

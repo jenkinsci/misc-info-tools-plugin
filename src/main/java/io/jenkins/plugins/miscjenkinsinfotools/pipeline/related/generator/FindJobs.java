@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.related.generator;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.related.generator;
 
 import hudson.Extension;
 import hudson.model.Job;

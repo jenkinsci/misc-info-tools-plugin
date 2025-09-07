@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.buildnumber;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.buildnumber;
 
 import hudson.model.Label;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;

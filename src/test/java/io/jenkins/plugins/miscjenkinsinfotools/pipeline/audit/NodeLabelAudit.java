@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.audit;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.audit;
 
 import hudson.model.Label;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;

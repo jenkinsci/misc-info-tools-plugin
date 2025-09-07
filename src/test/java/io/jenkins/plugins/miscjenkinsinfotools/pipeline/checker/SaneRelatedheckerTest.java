@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.checker;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.checker;
 
 import hudson.model.Label;
 import hudson.model.Result;

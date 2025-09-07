@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.related.buildnumber;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.related.buildnumber;
 
 import hudson.Extension;
 import hudson.model.Job;

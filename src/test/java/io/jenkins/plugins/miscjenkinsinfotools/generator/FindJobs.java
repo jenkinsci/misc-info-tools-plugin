@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.generator;
+package io.jenkins.plugins.miscjenkinsinfotools.generator;
 
 import hudson.model.Result;
 import jenkins.model.Jenkins;

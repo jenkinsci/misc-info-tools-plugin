@@ -1,4 +1,4 @@
-package io.jenkins.plugins.relatedprojectandjobcheckandfindertools.pipeline.related.checker;
+package io.jenkins.plugins.miscjenkinsinfotools.pipeline.related.checker;
 
 import hudson.AbortException;
 import hudson.model.Job;
