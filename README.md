@@ -190,10 +190,8 @@ pipeline {
 
 ## Contributing
 
-This project is maintained in the following [Github Project](https://github.com/akalinux/misc-jenkins-info-tools-plugin).
+This project is maintained in the following [Github Project](https://github.com/jenkinsci/misc-info-tools-plugin).
 Please create a pull request to submit changes! 
-
-Note, this will need to be changed if/when this is hosted by jenkins.
 
 ## LICENSE
 
