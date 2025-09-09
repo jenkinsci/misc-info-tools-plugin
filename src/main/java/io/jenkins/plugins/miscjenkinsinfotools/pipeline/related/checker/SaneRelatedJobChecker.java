@@ -71,7 +71,6 @@ public class SaneRelatedJobChecker extends Step implements Serializable {
 
     /**
      * This option sets the list of upstream projects that need to be validated for successful builds before this job executes.
-     * @param
      */
     public void setDeps(ArrayList<String> deps) {
         this.deps = deps;
