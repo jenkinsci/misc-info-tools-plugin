@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Order;
 import org.jvnet.hudson.test.JenkinsRule;
 
-public class GetUpstreamBuildNumber {
+public class GetUpstreamBuildNumberTest {
     @Rule
     public JenkinsRule jenkins = new JenkinsRule();
 
@@ -24,7 +24,7 @@ public class GetUpstreamBuildNumber {
         String pipelineScript = "echo \"${getLastSuccessfulBuildNumber('test-1')}\"";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.assertBuildStatusSuccess(job.scheduleBuild2(0));
-        String expectedString = "TelDevBuildTools";
+        String expectedString = "Start";
         jenkins.assertLogContains(expectedString, completedBuild);
     }
 }

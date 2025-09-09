@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Order;
 import org.jvnet.hudson.test.JenkinsRule;
 
-public class NodeLabelAudit {
+public class NodeLabelAuditTests {
     @Rule
     public JenkinsRule jenkins = new JenkinsRule();
 

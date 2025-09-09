@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Order;
 import org.jvnet.hudson.test.JenkinsRule;
 
-public class FindJobs {
+public class FindJobsTests {
 
     private final String[] list = {"test-x-0", "test-x-1", "test-x-2"};
 
@@ -21,7 +21,7 @@ public class FindJobs {
     @Order(1)
     public void testBadArgs() throws Exception {
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
-        String pipelineScript = "upstreamJobFinder(includes: null)";
+        String pipelineScript = "findJobs(includes: null)";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         jenkins.buildAndAssertStatus(Result.FAILURE, job);
     }
@@ -35,7 +35,7 @@ public class FindJobs {
             job.save();
         }
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
-        String pipelineScript = "def noise=upstreamJobFinder(includes: [/^.*test-x-.*$/]).join(',');echo noise";
+        String pipelineScript = "def noise=findJobs(includes: [/^.*test-x-.*$/]).join(',');echo noise";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.buildAndAssertStatus(Result.SUCCESS, job);
         for (String expectedString : list) {
@@ -48,7 +48,7 @@ public class FindJobs {
     public void excludeTest() throws Exception {
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
         String pipelineScript =
-                "def noise=upstreamJobFinder(includes: [/^.*test-x-.*$/],excludes:[ /^.*x-0$/] ).join(',');echo noise";
+                "def noise=findJobs(includes: [/^.*test-x-.*$/],excludes:[ /^.*x-0$/] ).join(',');echo noise";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.buildAndAssertStatus(Result.SUCCESS, job);
         String bad = "test-x-0";

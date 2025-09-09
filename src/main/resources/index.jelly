@@ -1,4 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
-  Miscellaneous Information tools for Jenkins.
+  Miscellaneous Information pipeline steps for Jenkins
 </div>
