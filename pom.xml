@@ -27,7 +27,7 @@
   </scm>
   <properties>
     <revision>1.0</revision>
-    <changelist>999999-SNAPSHOT</changelist>
+    <changelist>-SNAPSHOT</changelist>
 
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
