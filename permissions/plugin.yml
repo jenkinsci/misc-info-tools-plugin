@@ -1,0 +1,8 @@
+---
+name: "misc-info-tools"
+github: "jenkinsci/misc-info-tools-plugin"
+paths:
+#- "org/jenkins-ci/plugins/misc-info-tools"
+  - "io/jenkins/plugins"
+developers:
+  - "akalinux"
