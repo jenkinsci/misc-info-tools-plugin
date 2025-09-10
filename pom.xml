@@ -10,7 +10,6 @@
   <groupId>io.jenkins.plugins</groupId>
   <artifactId>misc-info-tools</artifactId>
   <version>${revision}-${changelist}</version>
-  <revision>1.0</revision>
   <packaging>hpi</packaging>
   <name>misc-info-tools</name>
   <url>https://github.com/jenkinsci/misc-info-tools-plugin</url>
@@ -27,6 +26,7 @@
     <url>https://github.com/${gitHubRepo}</url>
   </scm>
   <properties>
+    <revision>1.0</revision>
     <changelist>999999-SNAPSHOT</changelist>
 
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
