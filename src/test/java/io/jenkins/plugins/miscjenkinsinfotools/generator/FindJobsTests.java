@@ -5,21 +5,25 @@ import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class FindJobsTests {
+@WithJenkins
+class FindJobsTests {
 
     private final String[] list = {"test-x-0", "test-x-1", "test-x-2"};
 
-    @Rule
-    public JenkinsRule jenkins = new JenkinsRule();
+    private JenkinsRule jenkins;
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        jenkins = rule;
+    }
 
     @Test
-    @Order(1)
-    public void testBadArgs() throws Exception {
+    void testBadArgs() throws Exception {
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
         String pipelineScript = "findJobs(includes: null)";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
@@ -27,8 +31,7 @@ public class FindJobsTests {
     }
 
     @Test
-    @Order(2)
-    public void goodArgs() throws Exception {
+    void goodArgs() throws Exception {
         for (String name : list) {
             WorkflowJob job = Jenkins.get().createProject(WorkflowJob.class, name);
             job.setDefinition(new CpsFlowDefinition("echo 'hello world'", true));
@@ -44,8 +47,7 @@ public class FindJobsTests {
     }
 
     @Test
-    @Order(3)
-    public void excludeTest() throws Exception {
+    void excludeTest() throws Exception {
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-b-1");
         String pipelineScript =
                 "def noise=findJobs(includes: [/^.*test-x-.*$/],excludes:[ /^.*x-0$/] ).join(',');echo noise";

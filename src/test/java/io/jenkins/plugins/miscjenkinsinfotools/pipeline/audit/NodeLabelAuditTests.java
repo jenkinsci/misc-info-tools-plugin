@@ -3,18 +3,23 @@ package io.jenkins.plugins.miscjenkinsinfotools.pipeline.audit;
 import hudson.model.Label;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class NodeLabelAuditTests {
-    @Rule
-    public JenkinsRule jenkins = new JenkinsRule();
+@WithJenkins
+class NodeLabelAuditTests {
+
+    private JenkinsRule jenkins;
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        jenkins = rule;
+    }
 
     @Test
-    @Order(1)
-    public void testNodeList() throws Exception {
+    void testNodeList() throws Exception {
         String agentLabel = "my-agent";
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "node-audit");
 
