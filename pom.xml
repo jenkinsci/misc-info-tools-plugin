@@ -7,8 +7,9 @@
     <version>5.24</version>
     <relativePath />
   </parent>
+  <groupId>io.jenkins.plugins</groupId>
   <artifactId>misc-info-tools</artifactId>
-  <version>${revision}-${changelist}</version>
+  <version>${revision}.${changelist}</version>
   <packaging>hpi</packaging>
   <name>misc-info-tools</name>
   <url>https://github.com/jenkinsci/misc-info-tools-plugin</url>
@@ -25,8 +26,8 @@
     <url>https://github.com/${gitHubRepo}</url>
   </scm>
   <properties>
-    <revision>1.0</revision>
-    <changelist>-SNAPSHOT</changelist>
+    <revision>1</revision>
+    <changelist>999999-SNAPSHOT</changelist>
 
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
