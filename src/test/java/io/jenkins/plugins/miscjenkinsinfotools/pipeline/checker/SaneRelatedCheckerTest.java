@@ -6,18 +6,23 @@ import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class SaneRelatedheckerTest {
-    @Rule
-    public JenkinsRule jenkins = new JenkinsRule();
+@WithJenkins
+class SaneRelatedCheckerTest {
+
+    private JenkinsRule jenkins;
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        jenkins = rule;
+    }
 
     @Test
-    @Order(1)
-    public void testEmptyDeps() throws Exception {
+    void testEmptyDeps() throws Exception {
         String agentLabel = "my-agent";
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-1");
 
@@ -31,21 +36,21 @@ public class SaneRelatedheckerTest {
     }
 
     @Test
-    @Order(2)
-    public void testJobNeverRan() throws Exception {
+    void testJobNeverRan() throws Exception {
         Jenkins.get().createProject(WorkflowJob.class, "test-1");
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-2");
 
-        String pipelineScript = "node {  "
-                + "  relatedJobChecks deps: ['test-1'],\n"
-                + "    // all of these are optional ( default is always true )\n"
-                + "    jobExists: true,             // aborts if the a job has never run\n"
-                + "    isBuilding: true,           // aborts if the job is building\n"
-                + "    inQueue: true,              // aborts if the job is in que\n"
-                + "    hasRun: true,               // aborts if the a job has never run\n"
-                + "    isSuccess: true             // aborts if the last jobs is not in a state of success\n"
-                + "  \n"
-                + "}";
+        String pipelineScript =
+                """
+                node {
+                  relatedJobChecks deps: ['test-1'],
+                    // all of these are optional ( default is always true )
+                    jobExists: true,            // aborts if the a job has never run
+                    isBuilding: true,           // aborts if the job is building
+                    inQueue: true,              // aborts if the job is in que
+                    hasRun: true,               // aborts if the a job has never run
+                    isSuccess: true             // aborts if the last jobs is not in a state of success
+                }""";
         job.setDefinition(new CpsFlowDefinition(pipelineScript, true));
         WorkflowRun completedBuild = jenkins.buildAndAssertStatus(Result.ABORTED, job);
         String expectedString = "test-1, has never run!";
@@ -53,8 +58,7 @@ public class SaneRelatedheckerTest {
     }
 
     @Test
-    @Order(3)
-    public void testJobDoesNotExist() throws Exception {
+    void testJobDoesNotExist() throws Exception {
 
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-2");
         String pipelineScript = "node { relatedJobChecks(['NoExists']);}";
@@ -65,8 +69,7 @@ public class SaneRelatedheckerTest {
     }
 
     @Test
-    @Order(4)
-    public void testEmptyDepsNoNode() throws Exception {
+    void testEmptyDepsNoNode() throws Exception {
         String agentLabel = "my-agent";
         WorkflowJob job = jenkins.createProject(WorkflowJob.class, "test-1");
 
