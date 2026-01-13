@@ -12,7 +12,7 @@ This project provides useful information expressed through functions in a Jenkin
 
 # Precautions when using findJobs(includes,excludes)
 
-The findJobs(includes,excludes) can expose paths to projects your user user does not have access to. It is recommended that the "authorize-project" plugin be installed and configured to prevent unrestricted access to projects.
+The findJobs(includes,excludes) can expose paths to projects your users do not have access to. It is recommended that the "authorize-project" plugin be installed and configured to prevent unrestricted access to projects.
 
 The following considerations should be taken into account when installing this plugin:
 
